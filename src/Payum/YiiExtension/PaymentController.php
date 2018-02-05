@@ -1,6 +1,7 @@
 <?php
 namespace Payum\YiiExtension;
 
+use Yii;
 use Payum\Core\Exception\LogicException;
 use Payum\Core\Reply\HttpRedirect;
 use Payum\Core\Reply\ReplyInterface;
@@ -8,14 +9,15 @@ use Payum\Core\Request\Authorize;
 use Payum\Core\Request\Capture;
 use Payum\Core\Request\Notify;
 use Payum\Core\Request\Refund;
+use yii\web\Controller;
 
-class PaymentController extends \CController
+class PaymentController extends Controller
 {
     public function init()
     {
         parent::init();
 
-        \Yii::app()->attachEventHandler('onException', array($this, 'handleException'));
+        Yii::$app->attachEventHandler('onException', array($this, 'handleException'));
     }
 
     public function actionCapture()
@@ -91,6 +93,6 @@ class PaymentController extends \CController
      */
     protected function getPayum()
     {
-        return \Yii::app()->payum;
+        return Yii::$app->payum;
     }
 } 

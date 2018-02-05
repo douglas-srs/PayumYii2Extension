@@ -17,8 +17,8 @@ class TokenFactory extends AbstractTokenFactory
         $schema = '';
 
         return
-            \Yii::app()->getRequest()->getHostInfo($schema).
-            \Yii::app()->createUrl(trim($path,'/'),$parameters, $ampersand)
+            Yii::$app->getRequest()->getHostInfo($schema).
+            Yii::$app->createUrl(trim($path,'/'),$parameters, $ampersand)
         ;
     }
 }

@@ -3,6 +3,7 @@ namespace Payum\YiiExtension;
 
 \Yii::import('Payum\YiiExtension\TokenFactory', true);
 
+use Yii:
 use Payum\Core\Bridge\PlainPhp\Security\HttpRequestVerifier;
 use Payum\Core\PaymentInterface;
 use Payum\Core\Registry\RegistryInterface;
