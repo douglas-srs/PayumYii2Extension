@@ -1,5 +1,5 @@
 {
-    "name": "payum/payum-yii-extension",
+    "name": "douglas-srs/payum-yii-extension",
     "type": "yii-extension",
     "description": "Rich payment solutions for Yii framework. Paypal, payex, authorize.net, be2bill, omnipay, recurring paymens, instant notifications and many more",
     "keywords": [
@@ -41,7 +41,7 @@
         "payum/core": "0.15.*@dev"
     },
     "autoload": {
-        "psr-0": { "Payum\\YiiExtension": "" }
+        "psr-0": { "douglas-srs\\YiiExtension": "" }
     },
     "extra": {
         "branch-alias": {
