@@ -1,10 +1,10 @@
 {
-    "name": "douglas-srs/payum-yii-extension",
+    "name": "douglas-srs/PayumYiiExtension",
     "type": "yii2-extension",
     "minimum-stability": "dev",
     "autoload": {
         "psr-0": {
-            "douglas-srs\\YiiExtension": ""
+            "douglas-srs\\PayumYiiExtension": ""
         }
     },
     "config": {
