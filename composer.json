@@ -3,8 +3,8 @@
     "type": "yii2-extension",
     "minimum-stability": "dev",
     "autoload": {
-        "psr-4": {
-            "psr-0": { "douglas-srs\\YiiExtension": "" }
+        "psr-0": {
+            "douglas-srs\\YiiExtension": ""
         }
     },
     "config": {
