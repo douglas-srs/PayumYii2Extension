@@ -1,5 +1,5 @@
 <?php
-namespace Payum\YiiExtension;
+namespace Payum\Yii2Extension;
 
 use yii\base\Component;
 use Payum\Exception\RuntimeException;

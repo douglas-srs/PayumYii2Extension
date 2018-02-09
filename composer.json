@@ -1,5 +1,5 @@
 {
-    "name": "payum/payum-yii-extension",
+    "name": "payum/payum-yii2-extension",
     "type": "yii-extension",
     "description": "Rich payment solutions for Yii framework. Paypal, payex, authorize.net, be2bill, omnipay, recurring paymens, instant notifications and many more",
     "keywords": [
@@ -40,7 +40,7 @@
         "bin-dir": "bin"
     },
     "autoload": {
-        "psr-0": { "Payum\\YiiExtension": "" }
+        "psr-0": { "Payum\\Yii2Extension": "" }
     },
-    "target-dir": "Payum/YiiExtension"
+    "target-dir": "Payum/Yii2Extension"
 }

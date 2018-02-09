@@ -1,5 +1,5 @@
 <?php
-namespace Payum\YiiExtension;
+namespace Payum\Yii2Extension;
 
 use Yii;
 use Payum\Request\BinaryMaskStatusRequest;
