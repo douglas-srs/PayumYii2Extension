@@ -1,19 +1,20 @@
 <?php
 namespace Payum\YiiExtension;
 
-\Yii::import('Payum\YiiExtension\TokenFactory', true);
+use yii\base\Component;
+use Payum\Exception\RuntimeException;
+use Payum\Extension\StorageExtension;
+use Payum\PaymentInterface;
+use Payum\Registry\RegistryInterface;
+use Payum\Registry\SimpleRegistry;
+use Payum\Request\BinaryMaskStatusRequest;
+use Payum\Request\RedirectUrlInteractiveRequest;
+use Payum\Request\SecuredCaptureRequest;
+use Payum\Security\HttpRequestVerifierInterface;
+use Payum\Security\PlainHttpRequestVerifier;
+use Payum\Storage\StorageInterface;
 
-use Yii:
-use Payum\Core\Bridge\PlainPhp\Security\HttpRequestVerifier;
-use Payum\Core\PaymentInterface;
-use Payum\Core\Registry\RegistryInterface;
-use Payum\Core\Registry\SimpleRegistry;
-use Payum\Core\Security\GenericTokenFactory;
-use Payum\Core\Security\GenericTokenFactoryInterface;
-use Payum\Core\Security\HttpRequestVerifierInterface;
-use Payum\Core\Storage\StorageInterface;
-
-class PayumComponent extends \CApplicationComponent
+class PayumComponent extends Component
 {
     /**
      * @var PaymentInterface[]
@@ -31,11 +32,6 @@ class PayumComponent extends \CApplicationComponent
     public $tokenStorage;
 
     /**
-     * @var GenericTokenFactoryInterface
-     */
-    public $tokenFactory;
-
-    /**
      * @var HttpRequestVerifierInterface
      */
     protected $httpRequestVerifier;
@@ -47,15 +43,14 @@ class PayumComponent extends \CApplicationComponent
 
     public function init()
     {
-        $this->registry = new SimpleRegistry($this->payments, $this->storages, array());
+        $this->registry = new SimpleRegistry($this->payments, $this->storages, null, null);
+        $this->httpRequestVerifier = new PlainHttpRequestVerifier($this->tokenStorage);
 
-        $this->httpRequestVerifier = new HttpRequestVerifier($this->tokenStorage);
-        $this->tokenFactory = new GenericTokenFactory(new TokenFactory($this->tokenStorage, $this->registry), array(
-            'capture' => 'payment/capture',
-            'notify' => 'payment/notify',
-            'authorize' => 'payment/authorize',
-            'refund' => 'payment/refund'
-        ));
+        foreach ($this->registry->getPayments() as $name => $payment) {
+            foreach ($this->registry->getStorages($name) as $storage) {
+                $payment->addExtension(new StorageExtension($storage));
+            }
+        }
     }
 
     /**
@@ -64,14 +59,6 @@ class PayumComponent extends \CApplicationComponent
     public function getTokenStorage()
     {
         return $this->tokenStorage;
-    }
-
-    /**
-     * @return GenericTokenFactoryInterface
-     */
-    public function getTokenFactory()
-    {
-        return $this->tokenFactory;
     }
 
     /**

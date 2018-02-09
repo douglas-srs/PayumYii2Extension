@@ -2,90 +2,34 @@
 namespace Payum\YiiExtension;
 
 use Yii;
-use Payum\Core\Exception\LogicException;
-use Payum\Core\Reply\HttpRedirect;
-use Payum\Core\Reply\ReplyInterface;
-use Payum\Core\Request\Authorize;
-use Payum\Core\Request\Capture;
-use Payum\Core\Request\Notify;
-use Payum\Core\Request\Refund;
-use yii\web\Controller;
+use Payum\Request\BinaryMaskStatusRequest;
+use Payum\Request\RedirectUrlInteractiveRequest;
+use Payum\Request\SecuredCaptureRequest;
 
-class PaymentController extends Controller
+class PaymentController extends \yii\web\Controller
 {
-    public function init()
-    {
-        parent::init();
-
-        Yii::$app->attachEventHandler('onException', array($this, 'handleException'));
-    }
-
     public function actionCapture()
     {
         $token = $this->getPayum()->getHttpRequestVerifier()->verify($_REQUEST);
         $payment = $this->getPayum()->getRegistry()->getPayment($token->getPaymentName());
 
-        $payment->execute($capture = new Capture($token));
-
-        $this->getPayum()->getHttpRequestVerifier()->invalidate($token);
-
-        $this->redirect($token->getAfterUrl());
-    }
-
-    public function actionAuthorize()
-    {
-        $token = $this->getPayum()->getHttpRequestVerifier()->verify($_REQUEST);
-        $payment = $this->getPayum()->getRegistry()->getPayment($token->getPaymentName());
-
-        $payment->execute($capture = new Authorize($token));
-
-        $this->getPayum()->getHttpRequestVerifier()->invalidate($token);
-
-        $this->redirect($token->getAfterUrl());
-    }
-
-    public function actionNotify()
-    {
-        $token = $this->getPayum()->getHttpRequestVerifier()->verify($_REQUEST);
-        $payment = $this->getPayum()->getRegistry()->getPayment($token->getPaymentName());
-
-        $payment->execute($capture = new Notify($token));
-    }
-
-    public function actionRefund()
-    {
-        $token = $this->getPayum()->getHttpRequestVerifier()->verify($_REQUEST);
-        $this->getPayum()->getHttpRequestVerifier()->invalidate($token);
-
-        $payment = $this->getPayum()->getRegistry()->getPayment($token->getPaymentName());
-
-        $payment->execute($capture = new Refund($token));
-
-        $this->redirect($token->getAfterUrl());
-    }
-
-    public function handleException(\CExceptionEvent $event)
-    {
-        if (false == $event->exception instanceof ReplyInterface) {
-            return;
+        $payment->execute($status = new BinaryMaskStatusRequest($token));
+        if (false == $status->isNew()) {
+            header('HTTP/1.1 400 Bad Request', true, 400);
+            exit;
         }
 
-        $reply = $event->exception;
+        if ($interactiveRequest = $payment->execute(new SecuredCaptureRequest($token), true)) {
+            if ($interactiveRequest instanceof RedirectUrlInteractiveRequest) {
+                $this->redirect($interactiveRequest->getUrl(), true);
+            }
 
-        if ($reply instanceof HttpRedirect) {
-            $this->redirect($reply->getUrl(), true);
-            $event->handled = true;
-
-            return;
+            throw new \LogicException('Unsupported interactive request', null, $interactiveRequest);
         }
 
-        $ro = new \ReflectionObject($reply);
+        $this->getPayum()->getHttpRequestVerifier()->invalidate($token);
 
-        $event->exception = new LogicException(
-            sprintf('Cannot convert reply %s to Yii response.', $ro->getShortName()),
-            null,
-            $reply
-        );
+        $this->redirect($token->getAfterUrl());
     }
 
     /**
@@ -93,6 +37,6 @@ class PaymentController extends Controller
      */
     protected function getPayum()
     {
-        return Yii::$app->payum;
+        return \Yii::$app->payum;
     }
 } 
