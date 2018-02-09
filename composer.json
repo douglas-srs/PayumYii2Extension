@@ -1,5 +1,5 @@
 {
-    "name": "douglas-srs/payum-yii-extension",
+    "name": "payum/payum-yii-extension",
     "type": "yii-extension",
     "description": "Rich payment solutions for Yii framework. Paypal, payex, authorize.net, be2bill, omnipay, recurring paymens, instant notifications and many more",
     "keywords": [
