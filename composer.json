@@ -43,9 +43,4 @@
         "psr-0": { "Payum\\YiiExtension": "" }
     },
     "target-dir": "Payum/YiiExtension",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.5-dev"
-        }
-    }
 }
