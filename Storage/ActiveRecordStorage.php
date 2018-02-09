@@ -7,7 +7,7 @@ use Payum\Core\Model\ArrayObject;
 use Payum\Core\Model\Identificator;
 use Payum\Core\Storage\AbstractStorage;
 
-class ActiveRecordStorage extends AbstractStorage
+abstract class ActiveRecordStorage extends AbstractStorage
 {
     protected $_tableName;
 

@@ -14,13 +14,13 @@ use Payum\Security\HttpRequestVerifierInterface;
 use Payum\Security\PlainHttpRequestVerifier;
 use Payum\Storage\StorageInterface;
 
+use Payum\Core\PayumBuilder;
+use Payum\Core\Payum;
+use Payum\Core\Model\Payment;
+
 class PayumComponent extends Component
 {
-    /**
-     * @var PaymentInterface[]
-     */
-    public $payments;
-
+    public $paymentClass;
     /**
      * @var array
      */
@@ -31,26 +31,21 @@ class PayumComponent extends Component
      */
     public $tokenStorage;
 
-    /**
-     * @var HttpRequestVerifierInterface
-     */
-    protected $httpRequestVerifier;
 
-    /**
-     * @var RegistryInterface
-     */
-    protected $registry;
+    public $payments;
+    public $shared;
 
     public function init()
     {
-        $this->registry = new SimpleRegistry($this->payments, $this->storages, null, null);
-        $this->httpRequestVerifier = new PlainHttpRequestVerifier($this->tokenStorage);
+        $this->paymentClass = Payment::class;
+        $this->shared = (new PayumBuilder())
+        ->addDefaultStorages();
 
-        foreach ($this->registry->getPayments() as $name => $payment) {
-            foreach ($this->registry->getStorages($name) as $storage) {
-                $payment->addExtension(new StorageExtension($storage));
-            }
-        }
+        foreach ($this->payments as $gatewayName => $gatewayArray) {
+            $this->shared->addGateway($gatewayName, $gatewayArray);
+        }        
+
+        $this->shared = $this->shared->getPayum();
     }
 
     /**
@@ -58,7 +53,12 @@ class PayumComponent extends Component
      */
     public function getTokenStorage()
     {
-        return $this->tokenStorage;
+        return $this->$tokenStorage;
+    }
+
+    public function getTokenFactory()
+    {
+        return $this->shared->getTokenFactory();
     }
 
     /**
@@ -66,14 +66,12 @@ class PayumComponent extends Component
      */
     public function getHttpRequestVerifier()
     {
-        return $this->httpRequestVerifier;
+        return $this->shared->httpRequestVerifier;
     }
 
-    /**
-     * @return RegistryInterface
-     */
-    public function getRegistry()
+    public function getGateway($gatewayName)
     {
-        return $this->registry;
+        return $this->shared->getGateway($gatewayName);
     }
+    
 }
