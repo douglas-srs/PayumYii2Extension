@@ -36,15 +36,6 @@
             "homepage": "https://github.com/Payum/Payum/contributors"
         }
     ],
-    "require": {
-        "payum/core": "^1.5"
-    },
-    "require-dev": {
-        "payum/core": "^1.5@dev",
-        "phpunit/phpunit": "^5.7",
-        "php-http/guzzle6-adapter": "^1.0",
-        "symfony/phpunit-bridge": "^3.1|^4"
-    },
     "config": {
         "bin-dir": "bin"
     },
