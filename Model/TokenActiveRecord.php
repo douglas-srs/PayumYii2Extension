@@ -42,7 +42,7 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
             );
         }
         if ($tableName !== '') {
-            $this->_tableName = $tableName;
+            self::$_tableName = $tableName;
         }
         parent::__construct($scenario);
         if ($scenario == 'insert') {
@@ -53,9 +53,9 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public static function tableName()
     {
-        return $this->$_tableName;
+        return self::$_tableName;
     }
 
     /**
@@ -73,7 +73,7 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
                 'Table name must be supplied when trying to find a PaymentSecurityToken'
             );
         }
-        $this->_tableName = $tableName;
+        self::$_tableName = $tableName;
         return parent::model($className);
     }
 
