@@ -1,5 +1,5 @@
 <?php
-namespace Payum\YiiExtension\Storage;
+namespace Payum\Yii2Extension\Storage;
 
 use InvalidArgumentException;
 use Payum\Core\Exception\LogicException;
@@ -7,7 +7,7 @@ use Payum\Core\Model\ArrayObject;
 use Payum\Core\Model\Identificator;
 use Payum\Core\Storage\AbstractStorage;
 
-abstract class ActiveRecordStorage extends AbstractStorage
+class ActiveRecordStorage extends AbstractStorage
 {
     protected $_tableName;
 
@@ -80,5 +80,17 @@ abstract class ActiveRecordStorage extends AbstractStorage
                 'Model required to have activeRecord property, which should be sub class of CActiveRecord class.'
             );
         }
+    }
+
+    function doFind($id){
+        //
+    }
+
+    function doGetIdentity($model){
+        //
+    }
+
+    function findBy(array $criteria){
+        //
     }
 }
