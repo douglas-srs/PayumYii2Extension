@@ -55,7 +55,7 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
      */
     public function tableName()
     {
-        return self::$_tableName;
+        return $this->_tableName;
     }
 
     /**
