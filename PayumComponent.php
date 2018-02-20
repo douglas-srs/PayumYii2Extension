@@ -18,6 +18,9 @@ use Payum\Core\PayumBuilder;
 use Payum\Core\Payum;
 use Payum\Core\Model\Payment;
 
+
+
+
 class PayumComponent extends Component
 {
     public $paymentClass;
@@ -37,6 +40,11 @@ class PayumComponent extends Component
 
     public function init()
     {
+
+        $this->tokenStorage = new \Payum\Yii2Extension\Storage\ActiveRecordStorage(
+                'payum_tokens', '\Payum\Yii2Extension\Model\PaymentSecurityToken'
+            );
+
         $this->paymentClass = Payment::class;
         $this->shared = (new PayumBuilder())
         ->addDefaultStorages();
