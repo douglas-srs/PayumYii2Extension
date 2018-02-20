@@ -42,7 +42,7 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
             );
         }
         if ($tableName !== '') {
-            self::$_tableName = $tableName;
+            $this->_tableName = $tableName;
         }
         parent::__construct($scenario);
         if ($scenario == 'insert') {
