@@ -40,11 +40,6 @@ class PayumComponent extends Component
 
     public function init()
     {
-
-        $this->tokenStorage = new \Payum\Yii2Extension\Storage\ActiveRecordStorage(
-                'payum_tokens', '\Payum\Yii2Extension\Model\PaymentSecurityToken'
-            );
-
         $this->paymentClass = Payment::class;
         $this->shared = (new PayumBuilder())
         ->addDefaultStorages();
@@ -61,9 +56,7 @@ class PayumComponent extends Component
      */
     public function getTokenStorage()
     {
-        return new \Payum\Yii2Extension\Storage\ActiveRecordStorage(
-                'payum_tokens', '\Payum\Yii2Extension\Model\PaymentSecurityToken'
-            );
+        return $this->$tokenStorage;
     }
 
     public function getTokenFactory()
