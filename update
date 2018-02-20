@@ -1,0 +1,13 @@
+#!/bin/bash
+
+comment=$1
+log_file="Logone.txt"
+
+if [[ -n "$comment" ]]; then
+    git add .
+    git commit -m "$1"
+    git pull
+    git push
+else
+    echo "Please specify a comment"
+fi
