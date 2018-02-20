@@ -55,7 +55,7 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
      */
     public function tableName()
     {
-        return $this->_tableName;
+        return $this->$_tableName;
     }
 
     /**
@@ -73,7 +73,7 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
                 'Table name must be supplied when trying to find a PaymentSecurityToken'
             );
         }
-        self::$_tableName = $tableName;
+        $this->_tableName = $tableName;
         return parent::model($className);
     }
 
