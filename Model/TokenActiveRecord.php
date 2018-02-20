@@ -14,7 +14,7 @@
  * getters and setters from TokenInterface
  */
 
-namespace Payum\YiiExtension\Model;
+namespace Payum\Yii2Extension\Model;
 
 use Payum\Core\Security\TokenInterface;
 use Payum\Core\Exception\InvalidArgumentException;

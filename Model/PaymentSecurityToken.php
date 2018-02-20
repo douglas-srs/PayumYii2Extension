@@ -5,7 +5,7 @@
  * Time: 18:22
  */
 
-namespace Payum\YiiExtension\Model;
+namespace Payum\Yii2Extension\Model;
 
 use Payum\Core\Model\Token;
 
