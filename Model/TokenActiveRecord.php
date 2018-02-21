@@ -44,8 +44,8 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
         if ($tableName !== '') {
             self::$_tableName = $tableName;
         }
-        $config = ['scenario' => $scenario, 'tableName' => $tableName];
-        parent::__construct($scenario);
+        $config = ['scenario' => $scenario];
+        parent::__construct($config);
         if ($scenario == 'insert') {
             $this->_hash = Random::generateToken();
         }
