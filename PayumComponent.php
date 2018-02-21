@@ -77,5 +77,10 @@ class PayumComponent extends Component
     {
         return $this->shared->getGateway($gatewayName);
     }
+
+    public function getStorage($class)
+    {
+        return $this->shared->getStorage($class);
+    }
     
 }
