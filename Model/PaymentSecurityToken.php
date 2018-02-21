@@ -19,6 +19,7 @@ class PaymentSecurityToken extends Token
     public function __construct($scenario = 'insert', $tableName = '')
     {
         if ($scenario == 'insert') {
+            die(print_r($tableName, true));
             $this->activeRecord = new TokenActiveRecord('insert', $tableName);
             $this->hash = $this->activeRecord->_hash;
         }
