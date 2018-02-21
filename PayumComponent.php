@@ -52,7 +52,7 @@ class PayumComponent extends Component
             $this->shared->addGateway($gatewayName, $gatewayArray);
 
             foreach ($this->registry->getStorages($name) as $storage) {
-                $gatewayArray->addExtension(new StorageExtension($storage));
+                $this->shared->getGateway($gatewayName)->addExtension(new StorageExtension($storage));
             }
 
         }        
