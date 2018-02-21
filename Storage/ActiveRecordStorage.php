@@ -23,6 +23,7 @@ class ActiveRecordStorage extends AbstractStorage
      */
     public function createModel()
     {
+        die('teste');
         return new $this->modelClass('insert', $this->_tableName);
     }
 
