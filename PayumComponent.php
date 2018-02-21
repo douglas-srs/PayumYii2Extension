@@ -54,7 +54,7 @@ class PayumComponent extends Component
 
         $this->shared = $this->shared->getPayum();
 
-        $this->httpRequestVerifier = $this->shared->httpRequestVerifier;
+        $this->httpRequestVerifier = $this->shared->getHttpRequestVerifier();
     }
 
     /**
