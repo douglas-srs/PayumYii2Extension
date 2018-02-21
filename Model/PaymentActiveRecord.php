@@ -56,6 +56,10 @@ class PaymentActiveRecord extends \yii\db\ActiveRecord
         return self::$_tableName;
     }
 
+    public static function getDb(){
+        return \Yii::$app->get('userdb');
+    }
+
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
