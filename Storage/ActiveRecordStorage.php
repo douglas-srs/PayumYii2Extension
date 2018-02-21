@@ -26,13 +26,11 @@ class ActiveRecordStorage extends AbstractStorage
         return new $this->modelClass('insert', $this->_tableName);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /*
     public function createModel()
     {
         return new $this->modelClass('insert', $this->_tableName);
-    }
+    }*/
 
     /**
      * {@inheritDoc}
@@ -53,7 +51,7 @@ class ActiveRecordStorage extends AbstractStorage
     /**
      * {@inheritDoc}
      */
-    protected function doGetIdentificator($model)
+    protected function doGetIdentity($model)
     {
         if (is_array($model->primaryKey())) {
             throw new LogicException('Composite primary keys are not supported by this storage.');
@@ -91,10 +89,6 @@ class ActiveRecordStorage extends AbstractStorage
     }
 
     function doFind($id){
-        //
-    }
-
-    function doGetIdentity($model){
         //
     }
 
