@@ -20,15 +20,6 @@ class PaymentDetailsActiveRecordWrapper extends ArrayObject
         }
     }
 
-    const SCENARIO_INSERT = 'insert';
-
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_INSERT] = [];
-        return $scenarios;
-    }
-
     public function primaryKey()
     {
         return $this->activeRecord->tableSchema->primaryKey;
@@ -37,7 +28,7 @@ class PaymentDetailsActiveRecordWrapper extends ArrayObject
     public function save()
     {
         $this->activeRecord->_details = serialize($this->array);
-        $this->activeRecord->save();
+        $this->activeRecord->save(false);
         $this[$this->primaryKey()] = $this->activeRecord->{$this->primaryKey()};
     }
 

@@ -51,15 +51,6 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
         }
     }
 
-    const SCENARIO_INSERT = 'insert';
-
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_INSERT] = [];
-        return $scenarios;
-    }
-
     /**
      * @return string the associated database table name
      */
