@@ -34,18 +34,19 @@ class TokenActiveRecord extends \yii\db\ActiveRecord
      * @param $tableName
      * @throws \Payum\Core\Exception\InvalidArgumentException
      */
-    public function __construct($config = [])
+    public function __construct($scenario = 'insert', $tableName = '')
     {
-        if ($config['scenario'] == 'insert' && $config['tableName'] == '') {
+        if ($scenario == 'insert' && $tableName == '') {
             throw new InvalidArgumentException(
                 'Table name must be supplied when creating a new PaymentSecurityToken'
             );
         }
-        if ($config['tableName'] !== '') {
-            self::$_tableName = $config['tableName'];
+        if ($tableName !== '') {
+            self::$_tableName = $tableName;
         }
+        $config = ['scenario' => $scenario, 'tableName' => $tableName];
         parent::__construct($config);
-        if ($config['scenario'] == 'insert') {
+        if ($scenario == 'insert') {
             $this->_hash = Random::generateToken();
         }
     }
