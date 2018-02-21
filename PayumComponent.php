@@ -50,7 +50,7 @@ class PayumComponent extends Component
             $this->shared->addGateway($gatewayName, $gatewayArray);
         }
 
-        $this->registry = new SimpleRegistry($this->payments, $this->storages, null, null);
+        $this->registry = new SimpleRegistry($this->payments, $this->storages, []);
 
         $this->httpRequestVerifier = new PlainHttpRequestVerifier($this->tokenStorage);
         foreach ($this->registry->getPayments() as $name => $payment) {
