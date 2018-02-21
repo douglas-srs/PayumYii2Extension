@@ -59,14 +59,13 @@ class PayumComponent extends Component
         foreach ($this->storages as $storageName => $payment) {
 
             foreach ($payment as $storage){
-                die(print_r($storage, true));
-            }
+                //die(print_r($storage, true));
 
+                $this->shared->getGateway($gatewayName)->addExtension(new StorageExtension(
+                   $storage
+                ));
+            }          
             
-
-            $this->shared->getGateway($gatewayName)->addExtension(new StorageExtension(
-               $storage
-            ));
         }
 
     }
