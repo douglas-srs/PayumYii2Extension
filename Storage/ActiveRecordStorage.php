@@ -13,8 +13,8 @@ class ActiveRecordStorage extends AbstractStorage
 
     public function __construct($tableName, $modelClass)
     {
-        die('teste');
         parent::__construct($modelClass);
+        die('teste2');
 
         $this->_tableName = $tableName;
     }
