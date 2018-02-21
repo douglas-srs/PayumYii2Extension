@@ -29,8 +29,8 @@ class PaymentDetailsActiveRecordWrapper extends ArrayObject
     {
         $this->activeRecord->_details = serialize($this->array);
         $this->activeRecord->save();
-        die(print_r($this->primaryKey(), true));
-        $this[$this->primaryKey()] = $this->activeRecord->{$this->primaryKey()};
+        //die(print_r($this->primaryKey(), true));
+        $this[current($this->primaryKey())] = $this->activeRecord->{current($this->primaryKey())};
     }
 
     public function delete()
