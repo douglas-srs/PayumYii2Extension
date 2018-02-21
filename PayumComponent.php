@@ -11,8 +11,7 @@ use Payum\Request\BinaryMaskStatusRequest;
 use Payum\Request\RedirectUrlInteractiveRequest;
 use Payum\Request\SecuredCaptureRequest;
 use Payum\Security\HttpRequestVerifierInterface;
-use Payum\Core\Security\PlainHttpRequestVerifier;
-//use Payum\Security\PlainHttpRequestVerifier;
+use Payum\Security\PlainHttpRequestVerifier;
 use Payum\Storage\StorageInterface;
 
 use Payum\Core\PayumBuilder;
@@ -53,7 +52,7 @@ class PayumComponent extends Component
 
         $this->registry = new SimpleRegistry($this->payments, $this->storages, []);
 
-        $this->httpRequestVerifier = new PlainHttpRequestVerifier($this->tokenStorage);
+        $this->httpRequestVerifier = new \Payum\Core\Security\PlainHttpRequestVerifier($this->tokenStorage);
         foreach ($this->registry->getPayments() as $name => $payment) {
             foreach ($this->registry->getStorages($name) as $storage) {
                 $payment->addExtension(new StorageExtension($storage));
