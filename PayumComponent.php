@@ -3,7 +3,7 @@ namespace Payum\Yii2Extension;
 
 use yii\base\Component;
 use Payum\Exception\RuntimeException;
-use Payum\Extension\StorageExtension;
+use Payum\Core\Extension\StorageExtension;
 use Payum\PaymentInterface;
 use Payum\Registry\RegistryInterface;
 use Payum\Core\Registry\SimpleRegistry;
