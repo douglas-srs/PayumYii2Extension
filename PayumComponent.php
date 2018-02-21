@@ -11,7 +11,7 @@ use Payum\Request\BinaryMaskStatusRequest;
 use Payum\Request\RedirectUrlInteractiveRequest;
 use Payum\Request\SecuredCaptureRequest;
 use Payum\Security\HttpRequestVerifierInterface;
-use Payum\Security\PlainHttpRequestVerifier;
+use Payum\Core\Security\PlainHttpRequestVerifier;
 use Payum\Storage\StorageInterface;
 
 use Payum\Core\PayumBuilder;
