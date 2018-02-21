@@ -26,6 +26,10 @@ class ActiveRecordStorage extends AbstractStorage
         return new $this->modelClass('insert', $this->_tableName);
     }
 
+    public static function getDb(){
+        return \Yii::$app->get('userdb');
+    }
+
     /*
     public function createModel()
     {
