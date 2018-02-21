@@ -7,6 +7,7 @@ use Payum\Extension\StorageExtension;
 use Payum\PaymentInterface;
 use Payum\Registry\RegistryInterface;
 use Payum\Registry\SimpleRegistry;
+use Payum\Core\Registry\SimpleRegistry;
 use Payum\Request\BinaryMaskStatusRequest;
 use Payum\Request\RedirectUrlInteractiveRequest;
 use Payum\Request\SecuredCaptureRequest;
