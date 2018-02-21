@@ -61,7 +61,7 @@ class PayumComponent extends Component
                    $storage
                 ));*/
 
-                $this->shared->addStorage(Payment::class, $storage);
+                $this->shared->addStorage('\Payum\Paypal\ExpressCheckout\Nvp\Model\PaymentDetails', $storage);
             }          
             
         }
