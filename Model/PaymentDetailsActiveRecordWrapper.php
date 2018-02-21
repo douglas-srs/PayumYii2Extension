@@ -20,6 +20,15 @@ class PaymentDetailsActiveRecordWrapper extends ArrayObject
         }
     }
 
+    const SCENARIO_INSERT = 'insert';
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_INSERT] = [];
+        return $scenarios;
+    }
+
     public function primaryKey()
     {
         return $this->activeRecord->tableSchema->primaryKey;
