@@ -57,6 +57,9 @@ class PayumComponent extends Component
         $this->httpRequestVerifier = $this->shared->getHttpRequestVerifier();
 
         foreach ($this->storages as $storageName => $storage) {
+
+            die(print_r($storage, true));
+
             $this->shared->getGateway($gatewayName)->addExtension(new StorageExtension(
                $storage
             ));
