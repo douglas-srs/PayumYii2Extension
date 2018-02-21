@@ -52,9 +52,9 @@ class PayumComponent extends Component
 
         $this->registry = new SimpleRegistry($this->payments, $this->storages, []);
 
-        $this->httpRequestVerifier = $this->shared->buildHttpRequestVerifier($this->tokenStorage);
-
         $this->shared = $this->shared->getPayum();
+
+        $this->httpRequestVerifier = $this->shared->httpRequestVerifier;
     }
 
     /**
