@@ -81,9 +81,9 @@ class ActiveRecordStorage extends AbstractStorage
         parent::assertModelSupported($model);
 
         if (!property_exists(get_class($model), 'activeRecord')
-            || false == $model->activeRecord instanceof \CActiveRecord) {
+            || false == $model->activeRecord instanceof \yii\db\ActiveRecord) {
             throw new InvalidArgumentException(
-                'Model required to have activeRecord property, which should be sub class of CActiveRecord class.'
+                'Model required to have activeRecord property, which should be sub class of \yii\db\ActiveRecord class.'
             );
         }
     }
