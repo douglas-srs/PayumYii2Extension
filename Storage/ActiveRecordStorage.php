@@ -5,6 +5,7 @@ use InvalidArgumentException;
 use Payum\Core\Exception\LogicException;
 use Payum\Core\Model\ArrayObject;
 use Payum\Core\Model\Identificator;
+use Payum\Core\Model\Identity;
 use Payum\Core\Storage\AbstractStorage;
 
 class ActiveRecordStorage extends AbstractStorage
