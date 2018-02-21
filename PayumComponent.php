@@ -46,15 +46,22 @@ class PayumComponent extends Component
         $this->shared = (new PayumBuilder())
         ->addDefaultStorages();
 
+        $this->registry = new SimpleRegistry($this->payments, $this->storages, []);
+
         foreach ($this->payments as $gatewayName => $gatewayArray) {
             $this->shared->addGateway($gatewayName, $gatewayArray);
-        }
 
-        $this->registry = new SimpleRegistry($this->payments, $this->storages, []);
+            foreach ($this->registry->getStorages($name) as $storage) {
+                $gatewayArray->addExtension(new StorageExtension($storage));
+            }
+
+        }        
 
         $this->shared = $this->shared->getPayum();
 
         $this->httpRequestVerifier = $this->shared->getHttpRequestVerifier();
+
+
     }
 
     /**
