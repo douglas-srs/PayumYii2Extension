@@ -37,6 +37,8 @@ class PayumComponent extends Component
 
     public $payments;
     public $shared;
+    public $registry;
+    public $httpRequestVerifier;
 
     public function init()
     {
@@ -46,7 +48,16 @@ class PayumComponent extends Component
 
         foreach ($this->payments as $gatewayName => $gatewayArray) {
             $this->shared->addGateway($gatewayName, $gatewayArray);
-        }        
+        }
+
+        $this->registry = new SimpleRegistry($this->payments, $this->storages, null, null);
+
+        $this->httpRequestVerifier = new PlainHttpRequestVerifier($this->tokenStorage);
+        foreach ($this->registry->getPayments() as $name => $payment) {
+            foreach ($this->registry->getStorages($name) as $storage) {
+                $payment->addExtension(new StorageExtension($storage));
+            }
+        }
 
         $this->shared = $this->shared->getPayum();
     }
