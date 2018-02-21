@@ -29,7 +29,7 @@ class PaymentDetailsActiveRecordWrapper extends ArrayObject
     {
         $this->activeRecord->_details = serialize($this->array);
         $this->activeRecord->save();
-        die(print_r($this->activeRecord->{$this->primaryKey()}, true));
+        die(print_r($this->primaryKey(), true));
         $this[$this->primaryKey()] = $this->activeRecord->{$this->primaryKey()};
     }
 
