@@ -50,23 +50,25 @@ class PayumComponent extends Component
 
         foreach ($this->payments as $gatewayName => $gatewayArray) {
             $this->shared->addGateway($gatewayName, $gatewayArray);
-        }        
-
-        $this->shared = $this->shared->getPayum();
-
-        $this->httpRequestVerifier = $this->shared->getHttpRequestVerifier();
+        }
 
         foreach ($this->storages as $storageName => $payment) {
 
             foreach ($payment as $modelName => $storage){
                 //die(print_r($storage, true));
 
-                $this->shared->getGateway($gatewayName)->addExtension(new StorageExtension(
+                /*$this->shared->getGateway($gatewayName)->addExtension(new StorageExtension(
                    $storage
-                ));
+                ));*/
+
+                $this->shared->addStorage(Payment::class, $storage);
             }          
             
         }
+
+        $this->shared = $this->shared->getPayum();
+
+        $this->httpRequestVerifier = $this->shared->getHttpRequestVerifier();
 
     }
 
