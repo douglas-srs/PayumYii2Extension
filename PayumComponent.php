@@ -11,75 +11,100 @@ use Payum\Request\BinaryMaskStatusRequest;
 use Payum\Request\RedirectUrlInteractiveRequest;
 use Payum\Request\SecuredCaptureRequest;
 use Payum\Security\HttpRequestVerifierInterface;
-use Payum\Security\PlainHttpRequestVerifier;
 use Payum\Storage\StorageInterface;
+use Payum\Core\Storage\FilesystemStorage;
+use Payum\Core\Bridge\PlainPhp\Security\HttpRequestVerifier;
 
 use Payum\Core\PayumBuilder;
 use Payum\Core\Payum;
 use Payum\Core\Model\Payment;
 
-
-
+use Payum\Core\Security\GenericTokenFactory;
+use Payum\Yii2Extension\TokenFactory;
 
 class PayumComponent extends Component
 {
-    public $paymentClass;
+    /**
+     * @var PaymentInterface[]
+     */
+    public $payments;
     /**
      * @var array
      */
     public $storages;
-
     /**
      * @var StorageInterface
      */
     public $tokenStorage;
-
-
-    public $payments;
-    public $shared;
+    /**
+     * @var GenericTokenFactoryInterface
+     */
+    public $tokenFactory;
+    /**
+     * @var HttpRequestVerifierInterface
+     */
+    protected $httpRequestVerifier;
+    /**
+     * @var RegistryInterface
+     */
     public $registry;
-    public $httpRequestVerifier;
 
-    public function init()
-    {
-        $this->paymentClass = Payment::class;
-        $this->shared = (new PayumBuilder())
-        ->addDefaultStorages();
+    //protected $shared;
 
+    public function init(){
+        $tokenPaths = array(
+            'capture' => 'payment/capture',
+            'notify' => 'payment/notify',
+            'authorize' => 'payment/authorize',
+            'refund' => 'payment/refund'
+        );
         $this->registry = new SimpleRegistry($this->payments, $this->storages, []);
+        $this->httpRequestVerifier = new HttpRequestVerifier($this->tokenStorage);
+        $this->tokenFactory = new GenericTokenFactory(new TokenFactory($this->tokenStorage, $this->registry), $tokenPaths);
 
-        foreach ($this->payments as $gatewayName => $gatewayArray) {
-            $this->shared->addGateway($gatewayName, $gatewayArray);
+        /*$this->shared = (new PayumBuilder())
+        ->addDefaultStorages()
+        ->setGenericTokenFactoryPaths($tokenPaths)
+        ->setMainRegistry($this->registry)
+        ->setHttpRequestVerifier($this->httpRequestVerifier)
+        ->setTokenFactory($this->tokenFactory)
+        ;       
+        
+        foreach ($this->payments as $gatewayName => $gatewayConfig) {
+            $this->shared->addGateway($gatewayName, $gatewayConfig);
         }
 
-        foreach ($this->storages as $storageName => $payment) {
-
-            foreach ($payment as $modelName => $storage){
-                //die(print_r($storage, true));
-
-                /*$this->shared->getGateway($gatewayName)->addExtension(new StorageExtension(
-                   $storage
-                ));*/
-
-                $this->shared->addStorage('\Payum\Paypal\ExpressCheckout\Nvp\Model\PaymentDetails', $storage);
-                $this->shared->addStorage('Payum\Yii2Extension\Model\PaymentDetailsActiveRecordWrapper', $storage);
-            }          
-            
+        foreach ($this->storages as $storageName => $storageConfig) {
+            $this->shared->addStorage($storageName, $storageConfig);            
         }
 
-        $this->shared = $this->shared->getPayum();
-
-        $this->httpRequestVerifier = $this->shared->getHttpRequestVerifier();
-
+        $this->shared->setTokenFactory($this->tokenFactory);
+        $this->shared = $this->shared->getPayum();*/    
     }
 
-    /**
-     * @return StorageInterface
-     */
     public function getTokenStorage()
     {
-        //die(print_r($this->tokenStorage, true));
-        return new \Payum\Yii2Extension\Storage\ActiveRecordStorage('payum_tokens', '\Payum\Yii2Extension\Model\PaymentSecurityToken');
+        return $this->tokenStorage;
+    }
+
+    public function getTokenFactory()
+    {
+        return $this->tokenFactory;
+    }
+
+    public function getHttpRequestVerifier()
+    {
+        return $this->httpRequestVerifier;
+    }
+
+    public function getGateway($name)
+    {
+        return $this->registry->getGateway($name);
+    }
+
+    /*public function getTokenStorage()
+    {
+        return $this->shared->getTokenStorage();
     }
 
     public function getTokenFactory()
@@ -87,22 +112,14 @@ class PayumComponent extends Component
         return $this->shared->getTokenFactory();
     }
 
-    /**
-     * @return HttpRequestVerifierInterface
-     */
     public function getHttpRequestVerifier()
     {
-        return $this->shared->httpRequestVerifier;
+        return $this->shared->getHttpRequestVerifier();
     }
 
-    public function getGateway($gatewayName)
+    public function getGateway($name)
     {
-        return $this->shared->getGateway($gatewayName);
-    }
-
-    public function getStorage($class)
-    {
-        return $this->shared->getStorage($class);
-    }
+        return $this->shared->getGateway($name);
+    }*/
     
 }

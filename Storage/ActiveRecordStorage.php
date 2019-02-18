@@ -11,12 +11,14 @@ use Payum\Core\Storage\AbstractStorage;
 class ActiveRecordStorage extends AbstractStorage
 {
     protected $_tableName;
+    public $_modelClass;
 
     public function __construct($tableName, $modelClass)
     {
         parent::__construct($modelClass);
 
         $this->_tableName = $tableName;
+        $this->_modelClass = $modelClass;
     }
 
     /**
@@ -24,7 +26,10 @@ class ActiveRecordStorage extends AbstractStorage
      */
     public function create()
     {
-        return new $this->modelClass('insert', $this->_tableName);
+        $model = new $this->_modelClass;
+        //$model->scenario = 'insert';
+        //$model->tableName = $this->_tableName;
+        return $model;
     }
 
     public static function getDb(){
@@ -42,6 +47,7 @@ class ActiveRecordStorage extends AbstractStorage
      */
     protected function doUpdateModel($model)
     {
+        //die(print_r($model));
         $model->save();
     }
 
@@ -80,8 +86,7 @@ class ActiveRecordStorage extends AbstractStorage
     {
         parent::assertModelSupported($model);
 
-        if (!property_exists(get_class($model), 'activeRecord')
-            || false == $model->activeRecord instanceof \yii\db\ActiveRecord) {
+        if (false == $model instanceof \yii\db\ActiveRecord) {
             throw new InvalidArgumentException(
                 'Model required to have activeRecord property, which should be sub class of \yii\db\ActiveRecord class.'
             );
@@ -89,10 +94,15 @@ class ActiveRecordStorage extends AbstractStorage
     }
 
     function doFind($id){
-        return $this->className()->findOne($id);
+        //return $this->className()->findOne($id);
+        $model = new $this->_modelClass;
+        return $model->findOne($id);
     }
 
     function findBy(array $criteria){
-        return $this->className()->findOne($criteria);
+        //return $this->className()->findOne($criteria);
+        $model = new $this->_modelClass;
+        return $model->findOne($criteria);
     }
+
 }
